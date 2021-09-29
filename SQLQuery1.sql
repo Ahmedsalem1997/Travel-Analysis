@@ -10,7 +10,7 @@ where COGs > (select AVG(COGS)
 From [Travel Analysis SWVL]..swvl)
 
 
--- 1 B) Week Begin - Captain - Weekly Captain's Fulfillment – Overall Weekly Fulfillment for all Captains
+-- 1 B) Week Begin - Captain - Weekly Captain's Fulfillment â€“ Overall Weekly Fulfillment for all Captains
 
 Select DATEPART(week, Date)AS Week, DATEADD(day, DATEDIFF(day, 0, Date) /7*7-1, 0) AS WeekBegin, Captain, 
         SUM(
@@ -54,6 +54,9 @@ Where RideStatus like 'cancelled'
 Group By Time
 Order By Cancelled DESC;
 
+/* my thought on improving the compeltion of trips is by investigating the reason behind the cancelation of these trips and decrease the trips in this time slots
+and try to reschedule the time slots to the lowest cancellation hours trips
+*/
 
 -- 5) For low utilized routes (Routes who have low number of bookings compared to number of seats), what are your thoughts on how to improve their utilization
 
