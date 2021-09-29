@@ -4,15 +4,15 @@ From [Travel Analysis SWVL]..swvl
 
 -- 1 A) the count of captains got paid more than the average payout
 
-Select Count(COGs)
+Select COUNT(COGs)
 From [Travel Analysis SWVL]..swvl
 where COGs > (select AVG(COGS)
 From [Travel Analysis SWVL]..swvl)
 
 
--- 1 B) Week Begin - Captain - Weekly Captain's Fulfillment – Overall Weekly Fulfillment for all Captains???????????
+-- 1 B) Week Begin - Captain - Weekly Captain's Fulfillment – Overall Weekly Fulfillment for all Captains
 
-Select DATEADD(day, DATEDIFF(day, 0, Date) /7*7-1, 0) AS WeekBegin, Captain, 
+Select DATEPART(week, Date)AS Week, DATEADD(day, DATEDIFF(day, 0, Date) /7*7-1, 0) AS WeekBegin, Captain, 
         SUM(
 			CONVERT(
                 FLOAT,
@@ -21,14 +21,14 @@ Select DATEADD(day, DATEDIFF(day, 0, Date) /7*7-1, 0) AS WeekBegin, Captain,
                      END
 			)
         )
-        /COUNT(RideStatus) * 100
-	AS Fulfillment 
+        /COUNT(RideStatus) * 100  AS Fulfillment 
 From [Travel Analysis SWVL]..swvl
-where Captain is not null
+Where Captain is not null
 Group By  Date, Captain
-Order By  WeekBegin;
+Order By  WeekBegin, Fulfillment;
 
 
+----------------------------------------------------
 -- 2) Average KMs per Category
 
 Select Category, AVG(Distance)
@@ -39,20 +39,20 @@ Group By Category
 
 -- 4) How many cancelled rides do we have daily? 
 
-Select Date, Count(RideStatus) as Cancelled
+Select Date, COUNT(RideStatus) as Cancelled
 From [Travel Analysis SWVL]..swvl
 Where RideStatus like 'cancelled'
 Group By Date
-order by Cancelled DESC;
+Order By Cancelled DESC;
 
 
 -- 4) at which hour do we have the highest cancellation? How would you work on improving the completion
 
-Select Time, Count(RideStatus) as Cancelled
+Select Time, COUNT(RideStatus) as Cancelled
 From [Travel Analysis SWVL]..swvl
 Where RideStatus like 'cancelled'
 Group By Time
-Order by Cancelled DESC;
+Order By Cancelled DESC;
 
 
 -- 5) For low utilized routes (Routes who have low number of bookings compared to number of seats), what are your thoughts on how to improve their utilization
@@ -78,11 +78,7 @@ Select Captain,
         /COUNT(RideStatus) * 100
 	AS 'Percent Fail' 
 From [Travel Analysis SWVL]..swvl
-where Captain is not null
+Where Captain is not null
 Group By Captain
 Order By 'Percent Fail' Desc;
 
-
-
-SELECT DATEADD(day, DATEDIFF(day, 0, Date) /7*7-1, 0) AS WeekBegin
-From [Travel Analysis SWVL]..swvl
