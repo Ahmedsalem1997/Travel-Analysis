@@ -71,12 +71,12 @@ Order By UTL;
 
 Select Captain, 
         SUM(
-	CONVERT(
+	    CONVERT(
                 FLOAT,
                 CASE WHEN RideStatus = 'cancelled' THEN 1 
                      ELSE 0 
                      END
-			)
+	    )
         )
         /COUNT(RideStatus) * 100
 	AS 'Percent Fail' 
