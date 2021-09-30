@@ -71,7 +71,7 @@ Order By UTL;
 
 Select Captain, 
         SUM(
-			CONVERT(
+	CONVERT(
                 FLOAT,
                 CASE WHEN RideStatus = 'cancelled' THEN 1 
                      ELSE 0 
